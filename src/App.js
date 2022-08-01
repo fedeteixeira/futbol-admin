@@ -11,7 +11,7 @@ import { KeyList, KeyCreate, KeyEdit } from './components/keyList';
 import { TeamList, TeamCreate, TeamEdit } from './components/teamList';
 import { CategoryList, CategoryCreate, CategoryEdit } from './components/categoryList';
 import { authProvider } from './providers/authProvider';
-import { fileProvider } from './providers/fileProvider';
+import { dataProvider } from './providers/dataProvider';
 import { spanishProvider } from './providers/spanishProvider';
 import MyLayout from './layouts/customLayout'
 
@@ -21,7 +21,7 @@ const MyLoginPage = () => (
 
 function App() {
   return (
-    <Admin authProvider={authProvider} dataProvider={ fileProvider } i18nProvider={ spanishProvider } layout={ MyLayout } loginPage={MyLoginPage} >
+    <Admin authProvider={authProvider} dataProvider={ dataProvider } i18nProvider={ spanishProvider } layout={ MyLayout } loginPage={MyLoginPage} >
       { permissions => (
         <>
         { (permissions === "Administrador") &&

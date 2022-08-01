@@ -17,7 +17,7 @@ import {
 
 export const GameList = () => (
     <List>
-        <Datagrid rowClick="edit">
+        <Datagrid bulkActionButtons={null} >
             <TextField source="id" />
             <TextField source="name" />
             <ReferenceField source="trainerId" reference="users">

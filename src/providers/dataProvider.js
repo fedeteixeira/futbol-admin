@@ -33,10 +33,17 @@ export const dataProvider = {
         });
     },
 
-    getOne: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}/${params.id}`, options).then(({ json }) => ({
-            data: json,
-        })),
+    getOne: (resource, params) => {
+        const url = `${apiUrl}/${resource}/${params.id}`;
+
+        return httpClient(url, options).then(({ headers, json }) => {
+            json = json.data;
+            json.id = json._id;
+            return {
+                data: json
+            };
+        });
+    },
 
     getMany: (resource, params) => {
         const query = {
@@ -74,11 +81,17 @@ export const dataProvider = {
     },
 
     update: (resource, params) =>
-        httpClient(`${apiUrl}/${resource}/${params.id}`, {
+        httpClient(`${apiUrl}/${resource}`, {
             method: 'PUT',
             body: JSON.stringify(params.data),
             user: options.user,
-        }).then(({ json }) => ({ data: json })),
+        }).then(({ json }) => {
+            json = json.data;
+            json.id = json._id;
+            return {
+                data: json
+            };
+        }),
 
     updateMany: (resource, params) => {
         const query = {
@@ -102,7 +115,6 @@ export const dataProvider = {
 
     delete: (resource, params) =>
         {
-            console.log(resource, params);
             return httpClient(`${apiUrl}/${resource}/${params.id}`, {
                 method: 'DELETE',
                 user: options.user,

@@ -3,27 +3,32 @@ import { dataProvider } from './dataProvider';
 export const fileProvider = {
     ...dataProvider,
     create: (resource, params) => {
-        console.log("here");
-        if (resource !== 'users') {
+        if (resource !== 'users' || !params.data.picture || !params.data.studyRecord) {
             // fallback to the default implementation
             return dataProvider.create(resource, params);
         }
 
-        return convertFileToBase64(params.data.picture)
-            .then(base64Picture =>
-                ({
-                    src: base64Picture,
-                    title: `${params.data.title}`,
-                })
-            )
-            .then(transformedNewPicture =>
-                dataProvider.create(resource, {
+        const pictures = [
+            {...params.data.picture, type: "picture"},
+            {...params.data.studyRecord, type: "studyRecord"},
+        ]
+
+        const newPictures = pictures.filter(
+            p => p.rawFile instanceof File
+        );
+
+        return Promise.all(newPictures.map(convertFileToBase64))
+            .then(base64Pictures => {
+                let picture = base64Pictures.find((imgObj) => imgObj.type === "picture")
+                let studyRecord = base64Pictures.find((imgObj) => imgObj.type === "studyRecord")
+                return dataProvider.create(resource, {
                     data: {
                         ...params.data,
-                        picture: transformedNewPicture,
+                        picture,
+                        studyRecord,
                     },
                 })
-            );
+            });
     },
 };
 
@@ -35,7 +40,13 @@ export const fileProvider = {
 const convertFileToBase64 = file =>
     new Promise((resolve, reject) => {
         const reader = new FileReader();
-        reader.onload = () => resolve(reader.result);
+        reader.onload = () => {
+            return resolve({
+                src: reader.result,
+                title: file.title,
+                type: file.type
+            });
+        };
         reader.onerror = reject;
 
         reader.readAsDataURL(file.rawFile);

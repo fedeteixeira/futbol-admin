@@ -12,8 +12,6 @@ import {
     ReferenceInput,
     SelectInput,
     PasswordInput,
-    ImageField,
-    ImageInput,
     DeleteButton,
     EditButton
 } from 'react-admin';
@@ -34,8 +32,6 @@ export const UserList = () => (
             <ReferenceField source="categoryId" reference="categories" label="Categoría" >
                 <TextField source="name" />
             </ReferenceField>
-            <ImageField source="picture.src" title="title" label="Foto" />
-            <ImageField source="studyRecord.src" title="title" label="Certificado Estudios" />
             <EditButton />
             <DeleteButton />
         </Datagrid>
@@ -66,12 +62,6 @@ export const UserCreate = props => (
             <ReferenceInput source="categoryId" reference="categories" >
                 <SelectInput source="name" label="Categoría" />
             </ReferenceInput>
-            <ImageInput source="picture" label="Foto" accept="image/*" >
-                <ImageField source="src" title="title" />
-            </ImageInput>
-            <ImageInput source="studyRecord" label="Certificado Estudios" accept="image/*" >
-                <ImageField source="src" title="title" />
-            </ImageInput>
         </SimpleForm>
     </Create>
 );

@@ -11,7 +11,7 @@ import {
     ReferenceInput,
     SelectInput,
     ImageField,
-    ImageInput,
+    EditButton,
     DeleteButton
 } from 'react-admin';
 
@@ -27,12 +27,13 @@ export const PersonList = () => (
             <TextField source="identification" label="Cédula"/>
             <TextField source="name" label="Nombre" />
             <TextField source="lastName" label="Apellido" />
-            <TextField source="rol" label="Rol" />
             <ReferenceField source="categoryId" reference="categories" label="Categoría" >
                 <TextField source="name" />
             </ReferenceField>
-            <ImageField source="picture.src" title="title" label="Foto" />
-            <ImageField source="studyRecord.src" title="title" label="Certificado Estudios" />
+            <ImageField source="picture" title="title" label="Foto" />
+            <ImageField source="studyRecord" title="title" label="Certificado Estudios" />
+            <ImageField source="birthCertificate" title="title" label="Partida Nacimiento" />
+            <EditButton />
             <DeleteButton />
         </Datagrid>
     </List>
@@ -50,15 +51,9 @@ export const PersonEdit = () => (
             <ReferenceInput source="categoryId" reference="categories" >
                 <SelectInput source="name" label="Categoría" />
             </ReferenceInput>
-            <ImageInput source="picture" label="Foto" accept="image/*" >
-                <ImageField source="src" title="title" />
-            </ImageInput>
-            <ImageInput source="studyRecord" label="Certificado Estudios" accept="image/*" >
-                <ImageField source="src" title="title" />
-            </ImageInput>
-            <ImageInput source="birthCertificate" label="Partida Nacimiento" accept="image/*" >
-                <ImageField source="src" title="title" />
-            </ImageInput>
+            <TextInput source="picture" label="Foto" type="url" />
+            <TextInput source="studyRecord" label="Certificado Estudios" type="url" />
+            <TextInput source="birthCertificate" label="Partida Nacimiento" type="url" />
         </SimpleForm>
     </Edit>
 );
@@ -77,15 +72,9 @@ export const PersonCreate = props => {
                 <ReferenceInput source="categoryId" reference="categories" >
                     <SelectInput source="name" label="Categoría" />
                 </ReferenceInput>
-                <ImageInput source="picture" label="Foto" accept="image/*" >
-                    <ImageField source="src" title="title" />
-                </ImageInput>
-                <ImageInput source="studyRecord" label="Certificado Estudios" accept="image/*" >
-                    <ImageField source="src" title="title" />
-                </ImageInput>
-                <ImageInput source="birthCertificate" label="Partida Nacimiento" accept="image/*" >
-                    <ImageField source="src" title="title" />
-                </ImageInput>
+                <TextInput source="picture" label="Foto" type="url" />
+                <TextInput source="studyRecord" label="Certificado Estudios" type="url" />
+                <TextInput source="birthCertificate" label="Partida Nacimiento" type="url" />
             </SimpleForm>
         </Create>
     )

@@ -7,26 +7,23 @@ import {
     EditButton,
     Edit,
     SimpleForm,
-    NumberField,
     TextInput,
     Create,
-    NumberInput,
     ReferenceInput,
+    DeleteButton,
+    SelectInput
 } from 'react-admin';
 
 
 export const TeamList = () => (
     <List>
-        <Datagrid rowClick="edit">
-            <TextField source="id" />
-            <TextField source="name" />
+        <Datagrid bulkActionButtons={null} >
+            <TextField source="name" label="Nombre" />
             <ReferenceField source="categoryId" reference="categories">
-                <NumberField source="categoryId" />
-            </ReferenceField>
-            <ReferenceField source="keyId" reference="keys">
-                <NumberField source="keyId" />
+                <TextField source="name" label="Nombre" />
             </ReferenceField>
             <EditButton />
+            <DeleteButton />
         </Datagrid>
     </List>
 );
@@ -34,13 +31,9 @@ export const TeamList = () => (
 export const TeamEdit = () => (
     <Edit>
         <SimpleForm>
-            <TextField source="id" />
-            <TextInput source="name" />
-            <ReferenceInput source="categoryId" reference="categories">
-                <NumberInput source="categoryId" />
-            </ReferenceInput>
-            <ReferenceInput source="keyId" reference="keys">
-                <NumberInput source="keyId" />
+            <TextInput source="name" label="Nombre" />
+            <ReferenceInput source="categoryId" reference="categories" >
+                <SelectInput source="name" label="Categoría" />
             </ReferenceInput>
         </SimpleForm>
     </Edit>
@@ -49,13 +42,9 @@ export const TeamEdit = () => (
 export const TeamCreate = props => (
     <Create {...props}>
         <SimpleForm>
-            <TextField source="id" />
-            <TextInput source="name" />
-            <ReferenceInput source="categoryId" reference="categories">
-                <NumberInput source="categoryId" />
-            </ReferenceInput>
-            <ReferenceInput source="keyId" reference="keys">
-                <NumberInput source="keyId" />
+            <TextInput source="name" label="Nombre" />
+            <ReferenceInput source="categoryId" reference="categories" >
+                <SelectInput source="name" label="Categoría" />
             </ReferenceInput>
         </SimpleForm>
     </Create>

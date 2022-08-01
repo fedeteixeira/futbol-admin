@@ -1,10 +1,12 @@
 import * as React from "react";
-import { List, Datagrid, TextField, SimpleForm, Create, TextInput, ImageInput, ImageField } from 'react-admin';
+import { List, Datagrid, TextField, SimpleForm, Create, Edit, TextInput, DeleteButton, EditButton } from 'react-admin';
 
 export const CategoryList = () => (
     <List>
-        <Datagrid>
+        <Datagrid bulkActionButtons={null}>
             <TextField source="name" label="Nombre" />
+            <EditButton />
+            <DeleteButton />
         </Datagrid>
     </List>
 );
@@ -15,4 +17,12 @@ export const CategoryCreate = props => (
             <TextInput source="name" label="Nombre" />
         </SimpleForm>
     </Create>
+);
+
+export const CategoryEdit = props => (
+    <Edit {...props}>
+        <SimpleForm>
+            <TextInput source="name" label="Nombre" />
+        </SimpleForm>
+    </Edit>
 );

@@ -13,11 +13,12 @@ import {
     SelectInput,
     PasswordInput,
     ImageField,
-    ImageInput
+    ImageInput,
+    DeleteButton,
+    EditButton
 } from 'react-admin';
 
 const userFilters = [
-    <TextInput source="lastName" label="Buscar" alwaysOn />,
     <ReferenceInput source="categoryId" reference="categories" label="Categoría" >
         <SelectInput optionText="name" />
     </ReferenceInput>,
@@ -25,7 +26,7 @@ const userFilters = [
 
 export const UserList = () => (
     <List filters={ userFilters }>
-        <Datagrid>
+        <Datagrid bulkActionButtons={null} >
             <TextField source="identification" label="Cédula"/>
             <TextField source="name" label="Nombre" />
             <TextField source="lastName" label="Apellido" />
@@ -35,6 +36,8 @@ export const UserList = () => (
             </ReferenceField>
             <ImageField source="picture.src" title="title" label="Foto" />
             <ImageField source="studyRecord.src" title="title" label="Certificado Estudios" />
+            <EditButton />
+            <DeleteButton />
         </Datagrid>
     </List>
 );

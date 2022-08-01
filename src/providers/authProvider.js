@@ -50,7 +50,10 @@ export const authProvider = {
             : Promise.reject();
     },
     // called when the user navigates to a new location, to check for permissions / roles
-    getPermissions: () => Promise.resolve(),
+    getPermissions: () => {
+        const role = JSON.parse(localStorage.getItem('auth'))?.rol;
+        return role ? Promise.resolve(role) : Promise.reject();
+    },
 
     getIdentity: () => {
         try {
@@ -59,7 +62,7 @@ export const authProvider = {
             return Promise.resolve({
                 "id" : identification,
                 "fullName": `${name} ${lastName}`,
-                "avatar": picture,
+                "avatar": picture?.src,
             });
         } catch (error) {
             return Promise.reject(error);

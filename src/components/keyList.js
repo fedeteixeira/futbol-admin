@@ -1,4 +1,6 @@
-import * as React from "react";
+import React, {useState, useEffect} from 'react';
+import { useWatch } from 'react-hook-form';
+import { dataProvider } from '../providers/dataProvider';
 import {
     List,
     Datagrid,
@@ -39,6 +41,55 @@ export const KeyList = () => (
     </List>
 );
 
+const getTeams = async () => {
+    const params = {
+        filter: {},
+        meta: undefined,
+        pagination: {page: 1, perPage: 10},
+        sort: {field: 'id', order: 'ASC'},
+    };
+    const response = await dataProvider.getList('teams', params);
+    return response.data;
+}
+
+const TeamAComponent = props => {
+    const categoryId = useWatch({ name: 'categoryId' });
+    const teamBId = useWatch({ name: 'teamBId' });
+    let [teamsChoices, setTeamsChoices] = useState();
+    useEffect(() => {
+        console.log();
+        getTeams().then((result) => setTeamsChoices(result));
+    }, []);
+
+    teamsChoices = teamsChoices?.filter((team)=> team.categoryId === categoryId && team.id !== teamBId);
+    console.log(teamsChoices);
+
+    return (
+        <>
+            <SelectInput source="teamAId" label="Equipo A" choices={teamsChoices ?? []} />
+        </>
+    )
+}
+
+const TeamBComponent = props => {
+    const categoryId = useWatch({ name: 'categoryId' });
+    const teamAId = useWatch({ name: 'teamAId' });
+    let [teamsChoices, setTeamsChoices] = useState();
+    useEffect(() => {
+        console.log();
+        getTeams().then((result) => setTeamsChoices(result));
+    }, []);
+
+    teamsChoices = teamsChoices?.filter((team)=> team.categoryId === categoryId && team.id !== teamAId);
+    console.log(teamsChoices);
+
+    return (
+        <>
+            <SelectInput source="teamBId" label="Equipo B" choices={teamsChoices ?? []} />
+        </>
+    )
+}
+
 export const KeyEdit = () => {
     const { permissions } = usePermissions();
     return (
@@ -50,12 +101,8 @@ export const KeyEdit = () => {
                         <ReferenceInput source="categoryId" reference="categories">
                             <SelectInput source="name" label="Categoría" />
                         </ReferenceInput>
-                        <ReferenceInput source="teamAId" reference="teams">
-                            <SelectInput source="name" label="Equipo A" />
-                        </ReferenceInput>
-                        <ReferenceInput source="teamBId" reference="teams">
-                            <SelectInput source="name" label="Equipo B" />
-                        </ReferenceInput>
+                        <TeamAComponent />
+                        <TeamBComponent />
                     </>
                 }
                 { permissions === 'Encargado de Información' &&
@@ -80,12 +127,8 @@ export const KeyCreate = (props) => {
                         <ReferenceInput source="categoryId" reference="categories">
                             <SelectInput source="name" label="Categoría" />
                         </ReferenceInput>
-                        <ReferenceInput source="teamAId" reference="teams" >
-                            <SelectInput source="name" label="Equipo A"  />
-                        </ReferenceInput>
-                        <ReferenceInput source="teamBId" reference="teams" >
-                            <SelectInput source="name" label="Equipo B" />
-                        </ReferenceInput>
+                        <TeamAComponent />
+                        <TeamBComponent />
                     </>
                 }
             </SimpleForm>

@@ -5,6 +5,7 @@ import UserIcon from '@mui/icons-material/Person';
 import GameIcon from '@mui/icons-material/SportsSoccer';
 import PersonIcon from '@mui/icons-material/Sports';
 import { Admin, Resource, Login } from 'react-admin';
+import { Route } from "react-router-dom";
 import { UserList, UserCreate, UserEdit } from './components/userList';
 import { PersonList, PersonCreate, PersonEdit } from './components/personList';
 import { KeyList, KeyCreate, KeyEdit } from './components/keyList';
@@ -13,7 +14,8 @@ import { CategoryList, CategoryCreate, CategoryEdit } from './components/categor
 import { authProvider } from './providers/authProvider';
 import { dataProvider } from './providers/dataProvider';
 import { spanishProvider } from './providers/spanishProvider';
-import MyLayout from './layouts/customLayout'
+import MyLayout from './layouts/customLayout';
+import CuadreFinal from './components/CuadreFinal';
 
 const MyLoginPage = () => (
     <Login backgroundImage="/images/football_bg.jpg" />
@@ -21,7 +23,7 @@ const MyLoginPage = () => (
 
 function App() {
   return (
-    <Admin authProvider={authProvider} dataProvider={ dataProvider } i18nProvider={ spanishProvider } layout={ MyLayout } loginPage={MyLoginPage} >
+    <Admin dashboard={CuadreFinal} authProvider={authProvider} dataProvider={ dataProvider } i18nProvider={ spanishProvider } layout={ MyLayout } loginPage={MyLoginPage} >
       { permissions => (
         <>
         { (permissions === "Administrador") &&

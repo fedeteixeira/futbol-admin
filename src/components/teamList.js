@@ -1,4 +1,5 @@
 import * as React from "react";
+import teamStatuses from '../json/teamStatuses';
 import {
     List,
     Datagrid,
@@ -22,6 +23,7 @@ export const TeamList = () => (
             <ReferenceField source="categoryId" reference="categories">
                 <TextField source="name" label="Nombre" />
             </ReferenceField>
+            <TextField source="status" label="Estado" />
             <EditButton />
             <DeleteButton />
         </Datagrid>
@@ -35,6 +37,7 @@ export const TeamEdit = () => (
             <ReferenceInput source="categoryId" reference="categories" >
                 <SelectInput source="name" label="Categoría" />
             </ReferenceInput>
+            <SelectInput source="status" choices={ teamStatuses } label="Estado" />
         </SimpleForm>
     </Edit>
 );
@@ -46,6 +49,7 @@ export const TeamCreate = props => (
             <ReferenceInput source="categoryId" reference="categories" >
                 <SelectInput source="name" label="Categoría" />
             </ReferenceInput>
+            <SelectInput source="status" choices={ teamStatuses } label="Estado" />
         </SimpleForm>
     </Create>
 );

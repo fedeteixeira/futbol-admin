@@ -39,6 +39,7 @@ export const dataProvider = {
         return httpClient(url, options).then(({ headers, json }) => {
             json = json.data;
             json.id = json._id;
+
             return {
                 data: json
             };

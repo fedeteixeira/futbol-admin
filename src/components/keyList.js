@@ -22,19 +22,20 @@ import {
 
 export const KeyList = () => (
     <List>
-        <Datagrid bulkActionButtons={null}>
+        <Datagrid bulkActionButtons={null} >
             <TextField source="name" label="Nombre" />
             <ReferenceField source="categoryId" reference="categories" label="Categoría" >
                 <TextField source="name" />
             </ReferenceField>
-            <ReferenceField source="teamAId" reference="teams">
-                <TextField source="name" label="Equipo A" />
+            <ReferenceField source="teamAId" reference="teams" label="Equipo A" >
+                <TextField source="name" />
             </ReferenceField>
-            <ReferenceField source="teamBId" reference="teams">
-                <TextField source="name" label="Equipo B" />
+            <ReferenceField source="teamBId" reference="teams" label="Equipo B" >
+                <TextField source="name" />
             </ReferenceField>
             <NumberField source="goalsTeamA" label="Goles equipo A" />
             <NumberField source="goalsTeamB" label="Goles equipo B" />
+            <NumberField source="round" label="Ronda" />
             <EditButton />
             <DeleteButton />
         </Datagrid>
@@ -45,7 +46,7 @@ const getTeams = async () => {
     const params = {
         filter: {},
         meta: undefined,
-        pagination: {page: 1, perPage: 10},
+        pagination: {page: 1, perPage: 100},
         sort: {field: 'id', order: 'ASC'},
     };
     const response = await dataProvider.getList('teams', params);
@@ -57,12 +58,10 @@ const TeamAComponent = props => {
     const teamBId = useWatch({ name: 'teamBId' });
     let [teamsChoices, setTeamsChoices] = useState();
     useEffect(() => {
-        console.log();
         getTeams().then((result) => setTeamsChoices(result));
     }, []);
 
-    teamsChoices = teamsChoices?.filter((team)=> team.categoryId === categoryId && team.id !== teamBId);
-    console.log(teamsChoices);
+    teamsChoices = teamsChoices?.filter((team)=> team.categoryId === categoryId && team.id !== teamBId && team.status === "Activo");
 
     return (
         <>
@@ -76,12 +75,10 @@ const TeamBComponent = props => {
     const teamAId = useWatch({ name: 'teamAId' });
     let [teamsChoices, setTeamsChoices] = useState();
     useEffect(() => {
-        console.log();
         getTeams().then((result) => setTeamsChoices(result));
     }, []);
 
-    teamsChoices = teamsChoices?.filter((team)=> team.categoryId === categoryId && team.id !== teamAId);
-    console.log(teamsChoices);
+    teamsChoices = teamsChoices?.filter((team)=> team.categoryId === categoryId && team.id !== teamAId && team.status === "Activo");
 
     return (
         <>
@@ -107,8 +104,9 @@ export const KeyEdit = () => {
                 }
                 { permissions === 'Encargado de Información' &&
                     <>
-                        <NumberInput source="goalsTeamA" label="Goles equipo A" />
-                        <NumberInput source="goalsTeamB" label="Goles equipo B" />
+                        <NumberInput source="goalsTeamA" label="Goles equipo A" min={0} />
+                        <NumberInput source="goalsTeamB" label="Goles equipo B" min={0} />
+                        <NumberInput source="round" label="Ronda" min={1} />
                     </>
                 }
             </SimpleForm>
